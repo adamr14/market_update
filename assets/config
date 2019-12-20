@@ -1,0 +1,41 @@
+{
+  "stock_indices": {
+    "title": "Stock Indices",
+    "url": "https://in.finance.yahoo.com/world-indices",
+    "keys": {
+      "^DJI": "Dow Jones Industrial Average",
+      "^IXIC": "Nasdaq",
+      "^GSPC": "S&P 500",
+      "^VIX": "Vix"
+    }
+  },
+  "commodities": {
+    "title": "Commodities",
+    "url": "https://in.finance.yahoo.com/commodities",
+    "keys": {
+      "GC=F": "Gold",
+      "CL=F": "WTI Oil",
+      "BZ=F": "Brent Oil",
+      "SI=F": "Silver"
+    }
+  },
+  "exchange_rates": {
+    "title": "Exchange Rates",
+    "url": "https://in.finance.yahoo.com/currencies",
+    "keys": {
+      "EURUSD=X": "EUR:USD",
+      "GBPUSD=X": "GBP:USD",
+      "JPY=X": "USD:JPY"
+    }
+  },
+  "us_treasuries": {
+    "title": "US treasuries",
+    "url": "https://finance.yahoo.com/bonds",
+    "keys": {
+      "^IRX": "3 month",
+      "^FVX": "5 year",
+      "^TNX": "10 year",
+      "^TYX": "30 year"
+    }
+  }
+}
