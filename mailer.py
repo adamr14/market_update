@@ -16,7 +16,13 @@ class Mailer():
     def __init__(self):
         self.port = 465
         self.context = ssl.create_default_context()
-        self.__load_contacts()
+        recipients=''
+        while (recipients != 'test' and recipients != 'all'):
+            recipients=input("Recipients (all or test): ")
+        if recipients == 'all':
+            self.__load_contacts()
+        else:
+            self.contacts = {'adamr14@vt.edu': 'Adam'}
         self.password=input("Password:")
         self.body_html=''
         self.body_text=''
