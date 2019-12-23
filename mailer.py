@@ -56,7 +56,7 @@ class Mailer():
                         Here is your daily market update:</p>"""
                 content_html+=self.body_html
                 content_html+="""\
-                        <p><br><br>All data collected from Yahoo Finance<br><br>
+                        <p style="color:black;"><br><br>All data collected from Yahoo Finance<br><br>
                         To Unsubscribe, reply to this email indicating so</p>
                     </body>
                 </html>
@@ -76,4 +76,4 @@ class Mailer():
     def __load_contacts(self):
         with open('./assets/contacts') as json_contacts:
             self.contacts = json.load(json_contacts)
-        
+            
