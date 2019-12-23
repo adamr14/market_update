@@ -56,7 +56,7 @@ class Mailer():
                         Here is your daily market update:</p>"""
                 content_html+=self.body_html
                 content_html+="""\
-                        <p style="color:black;"><br><br>All data collected from Yahoo Finance<br><br>
+                        <p style="color:black;"><br><br>All data collected from Yahoo Finance and the Federal Reserve Website<br><br>
                         To Unsubscribe, reply to this email indicating so</p>
                     </body>
                 </html>
