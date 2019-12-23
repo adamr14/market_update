@@ -30,12 +30,6 @@
   },
   "us_treasuries": {
     "title": "US treasuries",
-    "url": "https://finance.yahoo.com/bonds",
-    "keys": {
-      "^IRX": "3 month",
-      "^FVX": "5 year",
-      "^TNX": "10 year",
-      "^TYX": "30 year"
-    }
+    "url": "https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/textview.aspx?data=yield"
   }
 }

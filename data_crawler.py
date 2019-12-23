@@ -95,32 +95,46 @@ class DataCrawler():
                         for percentChange in srow.find_all('td', attrs={'class':'data-col4'}):
                             percentChanges.append(percentChange.text)
          
-        return pd.DataFrame({'Prices': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
+        return pd.DataFrame({'Ratio': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
         
     def get_treasuries(self):
         job = 'us_treasuries'
         self.treasuries_url = self.config[job]['url']
-        keys = self.config[job]['keys']
         req = requests.get(self.treasuries_url)
         data = req.text
         soup = BeautifulSoup(data, features="html.parser")
-        prices=[]
-        symbols=[]
-        changes=[]
+        table = soup.find('table', attrs={'class':'t-chart'})
         names = []
-        percentChanges=[]
-        for row in soup.find_all('tbody'):
-            for srow in row.find_all('tr'):
-                for symbol in srow.find_all('td', attrs={'class':'data-col0'}):
-                    if symbol.text in keys.keys() and symbol.text not in symbols:
-                        symbols.append(symbol.text)
-                        names.append(keys[symbol.text] + ' ('+ symbol.text + ')')
-                        for price in srow.find_all('td', attrs={'class':'data-col2'}):
-                            prices.append(price.text)
-                        for change in srow.find_all('td', attrs={'class':'data-col3'}):
-                            changes.append(change.text)
-                        for percentChange in srow.find_all('td', attrs={'class':'data-col4'}):
-                            percentChanges.append(percentChange.text)
-         
-        return pd.DataFrame({'Prices': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
+        rows = []
+        for name in table.find_all('th'):
+            names.append(name.text)
+        for row in table.find_all('tr'):
+            rows.append(row)
+        names.pop(0)
+        current = rows[-1]
+        previous = rows[-2]
+        prices = []
+        prev_prices = []
+        i=0
+        for data in current.find_all('td'):
+            if i!=0:
+                prices.append(float(data.text))
+            i+=1
+        i=0
+        for data in previous.find_all('td'):
+            if i!=0:
+                prev_prices.append(float(data.text))
+            i+=1
+        changes = []
+        percentChanges = []
+        i=0
+        for price in prices:
+            changes.append(round(price - prev_prices[i], 2))
+            percentChanges.append((round(changes[i]/prev_prices[i], 4)*100))
+            i+=1
+        return pd.DataFrame({'Yield': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
+            
+        
+        
+        
 
