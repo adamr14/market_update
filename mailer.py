@@ -13,6 +13,7 @@ from datetime import date
 
 class Mailer():
     
+    
     def __init__(self):
         self.port = 465
         self.context = ssl.create_default_context()
