@@ -22,13 +22,13 @@ class Mailer():
         if recipients == 'all':
             self.__load_contacts()
         else:
-            self.contacts = {'adamr14@vt.edu': 'Adam'}
+            self.contacts = {'email@website.edu': 'Adam'}
         self.password=input("Password:")
         self.body_html=''
         self.body_text=''
         
-        
-        
+    
+    
     def send_email(self):
         message = MIMEMultipart("alternative")
         message["Subject"] = "Daily Market Update for " + date.today().strftime("%m/%d/%Y")

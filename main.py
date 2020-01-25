@@ -7,9 +7,12 @@ Created on Thu Dec 19 16:29:35 2019
 """
 from data_crawler import DataCrawler
 from mailer import Mailer
+import os
+import sys
 
 
 def main():
+    os.chdir(os.path.dirname(sys.argv[0]))
     crawler = DataCrawler()
     mailer = Mailer()
     mailer.add_dataframe_to_body('Stock Indices', crawler.get_indices(), crawler.index_url)
