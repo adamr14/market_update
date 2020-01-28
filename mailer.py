@@ -19,11 +19,9 @@ class Mailer():
         recipients=''
         while (recipients != 'test' and recipients != 'all'):
             recipients=input("Recipients (all or test): ")
-        if recipients == 'all':
-            self.__load_contacts()
-        else:
-            self.contacts = {'email@website.edu': 'Adam'}
-        self.password=input("Password:")
+        self.contacts = {'adamr14@vt.edu': 'Adam'}
+        self.__load_contacts()
+        self.__load_password()
         self.body_html=''
         self.body_text=''
         
@@ -76,4 +74,8 @@ class Mailer():
     def __load_contacts(self):
         with open('./assets/contacts') as json_contacts:
             self.contacts = json.load(json_contacts)
+        
+    def __load_password(self):
+        with open('./assets/key') as json_key:
+            self.password = json.load(json_key)['password']
             

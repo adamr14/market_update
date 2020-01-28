@@ -112,27 +112,31 @@ class DataCrawler():
             rows.append(row)
         names.pop(0)
         current = rows[-1]
-        previous = rows[-2]
         prices = []
-        prev_prices = []
         i=0
         for data in current.find_all('td'):
             if i!=0:
                 prices.append(float(data.text))
             i+=1
-        i=0
-        for data in previous.find_all('td'):
-            if i!=0:
-                prev_prices.append(float(data.text))
-            i+=1
-        changes = []
-        percentChanges = []
-        i=0
-        for price in prices:
-            changes.append(round(price - prev_prices[i], 2))
-            percentChanges.append((round(changes[i]/prev_prices[i], 4)*100))
-            i+=1
-        return pd.DataFrame({'Yield': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
+        try:
+            previous = rows[-2]
+            prev_prices = []
+            i=0
+            for data in previous.find_all('td'):
+                if i!=0:
+                    prev_prices.append(float(data.text))
+                i+=1
+            changes = []
+            percentChanges = []
+            i=0
+            for price in prices:
+                changes.append(round(price - prev_prices[i], 2))
+                percentChanges.append((round(changes[i]/prev_prices[i], 4)*100))
+                i+=1
+            return pd.DataFrame({'Yield': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
+        except:
+            return pd.DataFrame({'Yield': prices}, index=names)
+            
             
         
         
