@@ -2,3 +2,4 @@ __pycache__/*
 assets/contacts
 assets/key
 *.pyc
+attachments/*

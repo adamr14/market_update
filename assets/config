@@ -30,6 +30,6 @@
   },
   "us_treasuries": {
     "title": "US treasuries",
-    "url": "https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/textview.aspx?data=yield"
+    "base_url": "https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/TextView.aspx?data=yieldYear&year="
   }
 }

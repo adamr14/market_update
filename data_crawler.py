@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import json
+from datetime import date
+
 
 class DataCrawler():
     
@@ -99,46 +101,55 @@ class DataCrawler():
         
     def get_treasuries(self):
         job = 'us_treasuries'
-        self.treasuries_url = self.config[job]['url']
+        self.treasuries_url = self.config[job]['base_url'] + str(date.today().year)
+        
+        names = []
+        rows = []
+        
+        #
+        # If feb or jan get the previous year too
+        #
+        if date.today().month <= 2:
+            req = requests.get(self.config[job]['base_url'] + str(date.today().year-1))
+            data = req.text
+            soup = BeautifulSoup(data, features="html.parser")
+            table = soup.find('table', attrs={'class':'t-chart'})
+            for row in table.find_all('tr'):
+                rows.append(row)
+                
         req = requests.get(self.treasuries_url)
         data = req.text
         soup = BeautifulSoup(data, features="html.parser")
         table = soup.find('table', attrs={'class':'t-chart'})
-        names = []
-        rows = []
         for name in table.find_all('th'):
             names.append(name.text)
         for row in table.find_all('tr'):
             rows.append(row)
         names.pop(0)
-        current = rows[-1]
-        prices = []
+        curr_prices = self.__parse_t_row(rows[-1])
+        yesterday_prices = self.__parse_t_row(rows[-2])
+        last_week_prices = self.__parse_t_row(rows[-6])
+        last_month_prices = self.__parse_t_row(rows[-23])
+        changes = []
         i=0
-        for data in current.find_all('td'):
+        for price in curr_prices:
+            changes.append(round(price - yesterday_prices[i], 2))
+            i+=1
+        return pd.DataFrame({'Current Yield': curr_prices, 
+                             'Day Change': changes,
+                             'Last Week': last_week_prices,
+                             'Last Month': last_month_prices
+                             }, index=names)
+
+    #
+    # Parses a row of treasuries
+    #    
+    def __parse_t_row(self, row):
+        i=0
+        prices = []
+        for data in row.find_all('td'):
             if i!=0:
                 prices.append(float(data.text))
             i+=1
-        try:
-            previous = rows[-2]
-            prev_prices = []
-            i=0
-            for data in previous.find_all('td'):
-                if i!=0:
-                    prev_prices.append(float(data.text))
-                i+=1
-            changes = []
-            percentChanges = []
-            i=0
-            for price in prices:
-                changes.append(round(price - prev_prices[i], 2))
-                percentChanges.append((round(changes[i]/prev_prices[i], 4)*100))
-                i+=1
-            return pd.DataFrame({'Yield': prices, 'Day Change': changes, '% Change': percentChanges}, index=names)
-        except:
-            return pd.DataFrame({'Yield': prices}, index=names)
-            
-            
-        
-        
-        
-
+        return prices
+    
