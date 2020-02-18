@@ -41,7 +41,7 @@ class Mailer():
                 content_text='Hey ' + self.contacts[receiver] +',\n\n'
                 content_text+='Here is your daily market update:\n\n\n'
                 content_text+=self.body_text
-                content_text+='\n\nAll data collected from Yahoo Finance and the Fed Website\n\nDirect questions and Suggestions to Adam Rankin'
+                content_text+='\n\nAll data collected from Yahoo Finance and the Fed Website'
                 
                 #
                 # builds email in html
