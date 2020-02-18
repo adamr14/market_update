@@ -91,4 +91,3 @@ class Mailer():
     def __load_password(self):
         with open('./assets/key') as json_key:
             self.password = json.load(json_key)['password']
-            
